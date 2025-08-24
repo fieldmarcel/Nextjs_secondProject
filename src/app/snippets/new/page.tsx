@@ -3,12 +3,11 @@ import { redirect } from "next/navigation"; //used to forcibly navigate
 ///user around our app;
 
 
-export default function SnippetCreatePage(formData:FormData) {
-
-async function createSnippet(data: FormData) {
+async function createSnippet(formData:FormData) {
   //this needs to be a server action
-  "use server";//specifically in nextjs,, when this word is written
+  //specifically in nextjs,, when this word is written
   //then nextjs treat it to be be a server action 
+"use server";
 
   //check users input and make sure they re valid
   const title= formData.get('title') as string;
@@ -35,6 +34,7 @@ redirect('/');
 // action={createSnippet} → ✅ Passes a reference, Next.js calls it with FormData when submitted.
 
 // action={createSnippet()} → ❌ Calls it immediately, breaking the form submission.
+export default function SnippetCreatePage() {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
