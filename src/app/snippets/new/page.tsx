@@ -1,5 +1,6 @@
 import { db } from "@/db";
-
+import { redirect } from "next/navigation"; //used to forcibly navigate 
+///user around our app;
 
 
 export default function SnippetCreatePage(formData:FormData) {
@@ -10,23 +11,37 @@ async function createSnippet(data: FormData) {
   //then nextjs treat it to be be a server action 
 
   //check users input and make sure they re valid
-  
-  const title= formData.get('title')
-const code = formData.get('code');
+  const title= formData.get('title') as string;
+const code = formData.get('code') as string;
 
 
-}
+//create a new record in databse 
+
+const snippet =await db.snippet.create({
+  data:{
+    title,
+    code
+  }
+});
+console.log(snippet);
+// redireect the user back to the root route
+redirect('/');
+}  
 
 
+// When the user submits the form, Next.js automatically collects the form data and calls the function you passed as action on the server.
 
+// The function is called with a FormData object that contains all the form fields (title, code, etc.).
+// action={createSnippet} → ✅ Passes a reference, Next.js calls it with FormData when submitted.
 
+// action={createSnippet()} → ❌ Calls it immediately, breaking the form submission.
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
       <div className="w-full max-w-2xl p-8 bg-slate-200 rounded-lg shadow-md">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Create New Snippet</h2>
 
-        <form>
+        <form action={createSnippet} className="space-y-6">
           <div className="mb-4">
             <label htmlFor="title" className="block text-gray-700 font-semibold mb-2">Title</label>
             <input
