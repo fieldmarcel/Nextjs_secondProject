@@ -1,7 +1,6 @@
 import { db } from "@/db";
-import { redirect } from "next/navigation"; //used to forcibly navigate 
+import {  redirect } from "next/navigation"; //used to forcibly navigate 
 ///user around our app;
-
 
 async function createSnippet(formData:FormData) {
   //this needs to be a server action
@@ -26,7 +25,6 @@ console.log(snippet);
 // redireect the user back to the root route
 redirect('/');
 }  
-
 
 // When the user submits the form, Next.js automatically collects the form data and calls the function you passed as action on the server.
 
