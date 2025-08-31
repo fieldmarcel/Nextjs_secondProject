@@ -21,7 +21,7 @@ const snippet =await db.snippet.create({
     code
   }
 });
-console.log(snippet);
+// console.log(snippet);
 // redireect the user back to the root route
 redirect('/');
 }  
