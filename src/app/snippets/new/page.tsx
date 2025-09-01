@@ -1,45 +1,20 @@
-import { db } from "@/db";
-import {  redirect } from "next/navigation"; //used to forcibly navigate 
+'use client'
+
+import { useActionState, startTransition } from "react";
+
+
+import { useFormState } from "react-dom";
+import * as actions from "@/actions";
 ///user around our app;
 
-async function createSnippet(formData:FormData) {
-  //this needs to be a server action
-  //specifically in nextjs,, when this word is written
-  //then nextjs treat it to be be a server action 
-"use server";
-
-  //check users input and make sure they re valid
-  const title= formData.get('title') as string;
-const code = formData.get('code') as string;
-
-
-//create a new record in databse 
-
-const snippet =await db.snippet.create({
-  data:{
-    title,
-    code
-  }
-});
-// console.log(snippet);
-// redireect the user back to the root route
-redirect('/');
-}  
-
-// When the user submits the form, Next.js automatically collects the form data and calls the function you passed as action on the server.
-
-// The function is called with a FormData object that contains all the form fields (title, code, etc.).
-// action={createSnippet} → ✅ Passes a reference, Next.js calls it with FormData when submitted.
-
-// action={createSnippet()} → ❌ Calls it immediately, breaking the form submission.
 export default function SnippetCreatePage() {
-
+ const [formState,action] = useFormState(actions.createSnippet,{message:"hello world"}); 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
       <div className="w-full max-w-2xl p-8 bg-slate-200 rounded-lg shadow-md">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Create New Snippet</h2>
 
-        <form action={createSnippet} className="space-y-6">
+        <form action={action} className="space-y-6">
           <div className="mb-4">
             <label htmlFor="title" className="block text-gray-700 font-semibold mb-2">Title</label>
             <input
@@ -61,7 +36,7 @@ export default function SnippetCreatePage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-md font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
+<div>{formState.message}</div>
           <button
             type="submit"
             className="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-md hover:bg-blue-700 transition-colors"
